@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.0</version>
+        <version>2.5.14</version>
         <relativePath/>
     </parent>
     
@@ -19,6 +19,8 @@
     
     <properties>
         <java.version>11</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     
     <dependencies>
@@ -94,6 +96,7 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <!-- Removed lombok-maven-plugin due to resolution issues -->
         </plugins>
     </build>
 </project>

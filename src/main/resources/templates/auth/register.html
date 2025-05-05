@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>Register</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center py-3">
+                        <h4 class="mb-0">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <!-- Registration Error Messages -->
+                        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span th:text="${errorMessage}">Error message</span>
+                        </div>
+                        
+                        <!-- Registration Form -->
+                        <form th:action="@{/register}" method="post" th:object="${user}">
+                            <!-- Full Name -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Full Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="name" 
+                                           th:field="*{name}"
+                                           required 
+                                           autofocus>
+                                </div>
+                                <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                            </div>
+                            
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    <input type="email" 
+                                           class="form-control" 
+                                           id="email" 
+                                           th:field="*{email}"
+                                           required>
+                                </div>
+                                <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                            </div>
+                            
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                    <input type="password" 
+                                           class="form-control" 
+                                           id="password" 
+                                           th:field="*{password}"
+                                           required>
+                                </div>
+                                <div class="form-text">
+                                    Password must be at least 8 characters long and contain at least one uppercase letter, 
+                                    one lowercase letter, one number, and one special character.
+                                </div>
+                                <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                            </div>
+                            
+                            <!-- Confirm Password -->
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                    <input type="password" 
+                                           class="form-control" 
+                                           id="confirmPassword" 
+                                           name="confirmPassword"
+                                           required>
+                                </div>
+                            </div>
+                            
+                            <!-- Terms and Conditions -->
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" 
+                                       class="form-check-input" 
+                                       id="terms" 
+                                       name="terms" 
+                                       required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a>
+                                </label>
+                            </div>
+                            
+                            <!-- Submit Button -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-user-plus"></i> Register
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <!-- Login Link -->
+                        <div class="mt-3 text-center">
+                            <span>Already have an account? </span>
+                            <a th:href="@{/login}" class="text-decoration-none">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Terms and Conditions Modal -->
+        <div class="modal fade" id="termsModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Terms and Conditions</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>1. Acceptance of Terms</h6>
+                        <p>By accessing and using this GST Billing System, you accept and agree to be bound by the terms and provision of this agreement.</p>
+                        
+                        <h6>2. User Account</h6>
+                        <p>You are responsible for maintaining the confidentiality of your account and password. You agree to accept responsibility for all activities that occur under your account.</p>
+                        
+                        <h6>3. Privacy Policy</h6>
+                        <p>Your use of the GST Billing System is also governed by our Privacy Policy.</p>
+                        
+                        <h6>4. System Usage</h6>
+                        <p>You agree to use the system only for lawful purposes and in a way that does not infringe the rights of, restrict or inhibit anyone else's use and enjoyment of the system.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page specific scripts -->
+    <th:block layout:fragment="scripts">
+        <script>
+            // Password validation
+            document.getElementById('password').addEventListener('input', function() {
+                const password = this.value;
+                const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                this.setCustomValidity(
+                    regex.test(password) ? '' : 'Password must meet the requirements'
+                );
+            });
+            
+            // Confirm password validation
+            document.getElementById('confirmPassword').addEventListener('input', function() {
+                const password = document.getElementById('password').value;
+                this.setCustomValidity(
+                    this.value === password ? '' : 'Passwords do not match'
+                );
+            });
+        </script>
+    </th:block>
+</body>
+</html>
